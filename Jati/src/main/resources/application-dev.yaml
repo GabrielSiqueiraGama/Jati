@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:jati2023
+    username: jati2023
+    password: 0711
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false

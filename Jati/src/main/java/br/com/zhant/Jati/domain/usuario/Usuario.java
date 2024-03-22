@@ -1,6 +1,7 @@
 package br.com.zhant.Jati.domain.usuario;
 
 
+import br.com.zhant.Jati.domain.usuario.dto.CriaUsuarioDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,4 +27,10 @@ public class Usuario {
     private String email;
 
     private String telefone;
+
+    public Usuario(CriaUsuarioDto dados) {
+        this.nome = dados.nome();
+        this.email = dados.email();
+        this.telefone = dados.telefone();
+    }
 }

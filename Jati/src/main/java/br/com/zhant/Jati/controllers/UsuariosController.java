@@ -3,6 +3,8 @@ package br.com.zhant.Jati.controllers;
 import br.com.zhant.Jati.domain.usuario.Usuario;
 import br.com.zhant.Jati.domain.usuario.UsuarioRepository;
 import br.com.zhant.Jati.domain.usuario.dto.CriaUsuarioDto;
+import br.com.zhant.Jati.domain.usuario.dto.DetalheUsuarioDto;
+import br.com.zhant.Jati.domain.usuario.dto.EditarUsuarioDto;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +28,18 @@ public class UsuariosController {
     public ResponseEntity getUsuarios(){
         var usuarios = repository.findAll();
         return ResponseEntity.ok(usuarios);
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity editarUsuaio(@PathVariable Long id, @RequestBody() EditarUsuarioDto dados){
+        var usuarioEncontrado = repository.getReferenceById(id);
+        if(usuarioEncontrado == null){
+            ResponseEntity.notFound().build();
+        }
+
+        usuarioEncontrado.update(dados);
+
+        return ResponseEntity.ok(new DetalheUsuarioDto(usuarioEncontrado));
     }
 }

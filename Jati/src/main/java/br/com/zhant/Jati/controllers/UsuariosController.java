@@ -6,10 +6,7 @@ import br.com.zhant.Jati.domain.usuario.dto.CriaUsuarioDto;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -24,5 +21,10 @@ public class UsuariosController {
         Usuario usuario = new Usuario(dados);
         repository.save(usuario);
         return ResponseEntity.ok().build();
+    }
+    @GetMapping
+    public ResponseEntity getUsuarios(){
+        var usuarios = repository.findAll();
+        return ResponseEntity.ok(usuarios);
     }
 }

@@ -42,4 +42,17 @@ public class UsuariosController {
 
         return ResponseEntity.ok(new DetalheUsuarioDto(usuarioEncontrado));
     }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity deleteUsuario(@PathVariable Long id){
+        var usuarioEncontrado = repository.getReferenceById(id);
+
+        if(usuarioEncontrado == null){
+            ResponseEntity.notFound().build();
+        }
+
+        repository.delete(usuarioEncontrado);
+        return ResponseEntity.noContent().build();
+    }
 }

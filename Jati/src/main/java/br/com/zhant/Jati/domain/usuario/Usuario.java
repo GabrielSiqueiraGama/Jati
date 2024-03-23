@@ -40,5 +40,4 @@ public class Usuario {
         this.telefone = dados.telefone();
         this.email = dados.email();
     }
-
 }

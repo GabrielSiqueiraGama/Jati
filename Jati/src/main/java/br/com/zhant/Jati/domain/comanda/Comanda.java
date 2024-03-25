@@ -25,4 +25,9 @@ public class Comanda {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Item> itens;
     private boolean aberta;
+
+    public Comanda(Usuario usuario) {
+        this.usuario = usuario;
+        this.aberta = true;
+    }
 }

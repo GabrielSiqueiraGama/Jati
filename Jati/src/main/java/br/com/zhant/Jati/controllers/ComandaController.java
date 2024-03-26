@@ -2,6 +2,7 @@ package br.com.zhant.Jati.controllers;
 
 import br.com.zhant.Jati.domain.comanda.Comanda;
 import br.com.zhant.Jati.domain.comanda.ComandaRepository;
+import br.com.zhant.Jati.domain.dto.DetalheComandaDto;
 import br.com.zhant.Jati.domain.dto.criaComandaDTO;
 import br.com.zhant.Jati.domain.dto.editarComandaDto;
 import br.com.zhant.Jati.domain.usuario.UsuarioRepository;
@@ -11,8 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-@RequestMapping("/comandas")
 @RestController
+@RequestMapping("/comandas")
 public class ComandaController {
 
     @Autowired
@@ -23,6 +24,8 @@ public class ComandaController {
 
 
 
+    @PostMapping
+    @Transactional
     public ResponseEntity createComanda(@RequestBody() criaComandaDTO dados, UriComponentsBuilder uriBuilder){
         var usuario = usuarioRepository.getReferenceById(dados.usuario_id());
 
@@ -46,7 +49,7 @@ public class ComandaController {
         if(comanda == null){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(comanda);
+        return ResponseEntity.ok(new DetalheComandaDto(comanda));
     }
 
     @PutMapping("/{id}")
@@ -60,7 +63,7 @@ public class ComandaController {
 
         comanda.update(dados);
 
-        return ResponseEntity.ok(comanda);
+        return ResponseEntity.ok(new DetalheComandaDto(comanda));
 
     }
 
@@ -68,7 +71,7 @@ public class ComandaController {
     @Transactional()
     public ResponseEntity getAllComandas(){
         var comandas = comandaRepository.findAllByAbertaTrue();
-
-        return ResponseEntity.ok().build();
+        var comandasDetalhadas = comandas.stream().map(DetalheComandaDto::new);
+        return ResponseEntity.ok(comandasDetalhadas);
     }
 }

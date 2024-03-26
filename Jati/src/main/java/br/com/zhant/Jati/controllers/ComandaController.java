@@ -3,6 +3,7 @@ package br.com.zhant.Jati.controllers;
 import br.com.zhant.Jati.domain.comanda.Comanda;
 import br.com.zhant.Jati.domain.comanda.ComandaRepository;
 import br.com.zhant.Jati.domain.dto.criaComandaDTO;
+import br.com.zhant.Jati.domain.dto.editarComandaDto;
 import br.com.zhant.Jati.domain.usuario.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class ComandaController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/${id}")
+    @GetMapping("/{id}")
     @Transactional
     public ResponseEntity getComandaById(@PathVariable Long id){
         var comanda = comandaRepository.getReferenceById(id);
@@ -48,10 +49,25 @@ public class ComandaController {
         return ResponseEntity.ok(comanda);
     }
 
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity editarComanda(@PathVariable Long id, @RequestBody editarComandaDto dados){
+        var comanda = comandaRepository.getReferenceById(id);
+
+        if (comanda == null){
+            ResponseEntity.notFound().build();
+        }
+
+        comanda.update(dados);
+
+        return ResponseEntity.ok(comanda);
+
+    }
+
     @GetMapping()
     @Transactional()
     public ResponseEntity getAllComandas(){
-        var comandas = comandaRepository.findAll();
+        var comandas = comandaRepository.findAllByAbertaTrue();
 
         return ResponseEntity.ok().build();
     }

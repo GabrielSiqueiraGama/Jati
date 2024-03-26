@@ -1,6 +1,7 @@
 package br.com.zhant.Jati.domain.comanda;
 
 import br.com.zhant.Jati.domain.comanda.item.Item;
+import br.com.zhant.Jati.domain.dto.editarComandaDto;
 import br.com.zhant.Jati.domain.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,5 +30,14 @@ public class Comanda {
     public Comanda(Usuario usuario) {
         this.usuario = usuario;
         this.aberta = true;
+    }
+
+    public void update(editarComandaDto dados) {
+        if(dados.aberta() != null){
+            this.aberta = dados.aberta();
+        }
+        if(dados.usuario() != null){
+            this.usuario = dados.usuario();
+        }
     }
 }

@@ -5,11 +5,10 @@ import br.com.zhant.Jati.domain.comanda.ComandaRepository;
 import br.com.zhant.Jati.domain.dto.criaComandaDTO;
 import br.com.zhant.Jati.domain.usuario.Usuario;
 import br.com.zhant.Jati.domain.usuario.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RequestMapping("/comandas")
@@ -31,10 +30,21 @@ public class ComandaController {
         }
 
         Comanda comanda = new Comanda(usuario);
-
+        comandaRepository.save(comanda);
         var uri = uriBuilder.path("/comandas/{id}").buildAndExpand(comanda.getId()).toUri();
 
-        comandaRepository.save(comanda);
+
         return ResponseEntity.created(uri).body(comanda);
+    }
+
+    @GetMapping("/${id}")
+    @Transactional
+    public ResponseEntity getComanda(@PathVariable Long id){
+        var comanda = comandaRepository.getReferenceById(id);
+
+        if(comanda == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(comanda);
     }
 }

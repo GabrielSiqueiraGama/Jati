@@ -1,6 +1,7 @@
 package br.com.zhant.Jati.domain.comanda.item;
 
 import br.com.zhant.Jati.domain.comanda.Comanda;
+import br.com.zhant.Jati.domain.comanda.item.dto.CriaItensDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,4 +29,11 @@ public class Item {
 
     @Column(scale = 2)
     private BigDecimal preco;
+
+    public Item(Comanda comanda, CriaItensDto dados) {
+        this.comanda = comanda;
+        this.preco = dados.preco();
+        this.quantidade = dados.quantidade();
+        this.nome = dados.nome();
+    }
 }

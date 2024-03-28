@@ -2,6 +2,7 @@ package br.com.zhant.Jati.controllers;
 
 import br.com.zhant.Jati.domain.comanda.Comanda;
 import br.com.zhant.Jati.domain.comanda.ComandaRepository;
+import br.com.zhant.Jati.domain.comanda.item.ItemRepository;
 import br.com.zhant.Jati.domain.dto.DetalheComandaDto;
 import br.com.zhant.Jati.domain.dto.criaComandaDTO;
 import br.com.zhant.Jati.domain.dto.editarComandaDto;
@@ -22,7 +23,8 @@ public class ComandaController {
     @Autowired
     UsuarioRepository usuarioRepository;
 
-
+    @Autowired
+    ItemRepository itemRepository;
 
     @PostMapping
     @Transactional
@@ -45,7 +47,7 @@ public class ComandaController {
     @Transactional
     public ResponseEntity getComandaById(@PathVariable Long id){
         var comanda = comandaRepository.getReferenceById(id);
-
+        var itens = itemRepository.findAllByComandaId(id);
         if(comanda == null){
             return ResponseEntity.notFound().build();
         }
@@ -71,7 +73,14 @@ public class ComandaController {
     @Transactional()
     public ResponseEntity getAllComandas(){
         var comandas = comandaRepository.findAllByAbertaTrue();
-        var comandasDetalhadas = comandas.stream().map(DetalheComandaDto::new);
+        var comandasDetalhadas = comandas.stream().map(comanda -> {
+            var itens = itemRepository.findAllByComandaId(comanda.getId());
+            if(itens == null){
+                return null;
+            }
+            return new DetalheComandaDto(comanda, itens);
+        });
+
         return ResponseEntity.ok(comandasDetalhadas);
     }
 }

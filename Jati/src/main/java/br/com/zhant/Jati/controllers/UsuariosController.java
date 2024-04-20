@@ -5,7 +5,7 @@ import br.com.zhant.Jati.domain.usuario.UsuarioRepository;
 import br.com.zhant.Jati.domain.usuario.dto.CriaUsuarioDto;
 import br.com.zhant.Jati.domain.usuario.dto.DetalheUsuarioDto;
 import br.com.zhant.Jati.domain.usuario.dto.EditarUsuarioDto;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -7,7 +7,7 @@ import br.com.zhant.Jati.domain.dto.DetalheComandaDto;
 import br.com.zhant.Jati.domain.dto.criaComandaDTO;
 import br.com.zhant.Jati.domain.dto.editarComandaDto;
 import br.com.zhant.Jati.domain.usuario.UsuarioRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

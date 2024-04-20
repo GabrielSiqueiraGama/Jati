@@ -5,7 +5,7 @@ import br.com.zhant.Jati.domain.comanda.item.Item;
 import br.com.zhant.Jati.domain.comanda.item.ItemRepository;
 import br.com.zhant.Jati.domain.comanda.item.dto.CriaItensDto;
 import br.com.zhant.Jati.domain.comanda.item.dto.DetalheItemDto;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
